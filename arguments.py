@@ -1,5 +1,7 @@
 import argparse
-
+from create_dane_csv import create_files_recursively
+from read_dane_csv import read_and_sum_time_for_model_a
+import os
 
 days_order = ["poniedziałek", "wtorek", "środa", "czwartek", "piątek", "sobota", "niedziela"]
 
@@ -79,6 +81,13 @@ if __name__ == "__main__":
     csv_usage_flag = args.c
 
     schedule = build_schedule(months_list, days_list, times_list)
-    
-    for row in schedule:
-        print(row)
+
+    for month, day, time in schedule:
+        dir_path = os.path.join(month, day, time)
+        os.makedirs(dir_path, exist_ok=True)
+
+    if create_flag and csv_usage_flag:
+        create_files_recursively(".")
+
+    if read_flag and csv_usage_flag:
+        read_and_sum_time_for_model_a(".")
