@@ -16,16 +16,22 @@ def create_dane_csv_in_directory(dirpath):
 
 def create_files_recursively(root_path='.'):
     count = 0
-    print("Tworzenie plików Dane.csv...\n")
-    
+
     for dirpath, dirnames, filenames in os.walk(root_path):
-        if dirpath != root_path:
+        if dirpath == root_path:
+            continue
+
+        if "__pycache__" in dirpath or ".git" in dirpath:
+            continue
+
+        if not dirnames:
             create_dane_csv_in_directory(dirpath)
             count += 1
-            print()
-    
-    print(f"{'='*60}")
+            print(f"[+] Utworzono Dane.csv w: {dirpath}")
+
+    print(f"\n{'='*60}")
     print(f"Utworzono łącznie {count} plików Dane.csv")
+
 
 if __name__ == "__main__":
     create_files_recursively()
